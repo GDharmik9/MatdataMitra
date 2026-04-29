@@ -1,0 +1,29 @@
+{
+  "name": "matdata-mitra",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Interactive Electoral Assistant — AI-driven, multilingual voter guidance platform",
+  "license": "MIT",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "clean": "turbo run clean",
+    "dev:backend": "turbo run dev --filter=backend",
+    "dev:frontend": "turbo run dev --filter=frontend",
+    "build:backend": "turbo run build --filter=backend",
+    "build:frontend": "turbo run build --filter=frontend"
+  },
+  "devDependencies": {
+    "turbo": "^2.5.0",
+    "typescript": "^5.7.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "packageManager": "yarn@1.22.22"
+}

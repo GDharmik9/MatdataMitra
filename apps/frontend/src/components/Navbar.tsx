@@ -1,0 +1,51 @@
+"use client";
+import { useEffect, useState } from "react";
+import { onAuthChange, signOut } from "@/lib/firebase";
+import type { User } from "@/lib/firebase";
+
+export default function Navbar() {
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = onAuthChange((currentUser) => {
+      setUser(currentUser);
+      setLoading(false);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  return (
+    <nav className="navbar">
+      <a href="/" className="nav-brand">
+        <span className="nav-logo">🗳️</span>
+        <span className="nav-title">MatdataMitra</span>
+      </a>
+      <div className="nav-links">
+        <a href="/timeline">Timeline</a>
+        <a href="/verify">Verify</a>
+        <a href="/candidates">KYC</a>
+        
+        {loading ? (
+          <span className="nav-loading">...</span>
+        ) : user ? (
+          <div className="nav-user-menu">
+            <span className="nav-user-name">
+              {user.photoURL ? (
+                <img src={user.photoURL} alt="Avatar" className="nav-avatar" />
+              ) : (
+                "👤"
+              )}
+              {user.displayName?.split(" ")[0] || "User"}
+            </span>
+            <button onClick={() => signOut()} className="nav-logout">
+              Sign out
+            </button>
+          </div>
+        ) : (
+          <a href="/login" className="nav-login">Login</a>
+        )}
+      </div>
+    </nav>
+  );
+}
