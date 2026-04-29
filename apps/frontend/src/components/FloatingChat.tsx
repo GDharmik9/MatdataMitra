@@ -5,19 +5,30 @@ import ChatBot from "./ChatBot";
 
 export default function FloatingChat() {
   const [isOpen, setIsOpen] = useState(false);
+  const [initialMode, setInitialMode] = useState<"text" | "voice">("text");
 
   useEffect(() => {
-    const handleOpenChat = () => setIsOpen(true);
+    const handleOpenChat = () => {
+      setInitialMode("text"); // Text mode when triggered via search
+      setIsOpen(true);
+    };
     window.addEventListener("open-chat", handleOpenChat);
     return () => window.removeEventListener("open-chat", handleOpenChat);
   }, []);
+
+  const handleManualOpen = () => {
+    if (!isOpen) {
+      setInitialMode("voice"); // Voice mode when clicked manually
+    }
+    setIsOpen(!isOpen);
+  };
 
   return (
     <>
       {/* Floating Toggle Button */}
       <button 
         className="floating-chat-toggle"
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={handleManualOpen}
         aria-label="Toggle AI Assistant"
       >
         {isOpen ? "✕" : "💬 Ask AI"}
@@ -25,7 +36,7 @@ export default function FloatingChat() {
 
       {/* Chat Modal */}
       <div className={`floating-chat-modal ${isOpen ? "open" : ""}`}>
-        <ChatBot />
+        <ChatBot isActive={isOpen} initialMode={initialMode} />
       </div>
     </>
   );

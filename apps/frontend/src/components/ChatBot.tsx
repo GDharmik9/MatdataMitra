@@ -37,7 +37,7 @@ function getSpeechRecognition(): any {
   return w.SpeechRecognition ?? w.webkitSpeechRecognition ?? null;
 }
 
-export default function ChatBot() {
+export default function ChatBot({ isActive = true, initialMode = "text" }: { isActive?: boolean; initialMode?: "text" | "voice" }) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [language, setLanguage] = useState("hi");
@@ -48,7 +48,15 @@ export default function ChatBot() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const recognitionRef = useRef<any>(null);
+  const [lastMode, setLastMode] = useState<"text" | "voice">("text");
 
+  // Handle auto-starting voice when opened manually
+  useEffect(() => {
+    if (isActive && initialMode === "voice" && !isRecording && messages.length === 0) {
+      // Small delay to ensure modal is open
+      setTimeout(() => startRecording(), 300);
+    }
+  }, [isActive, initialMode, messages.length]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -63,7 +71,8 @@ export default function ChatBot() {
 
   // ── Send text to backend ──
   const sendToBackend = useCallback(
-    async (text: string) => {
+    async (text: string, mode: "text" | "voice" = "text") => {
+      setLastMode(mode);
       addMessage("user", text);
       setIsProcessing(true);
 
@@ -82,7 +91,12 @@ export default function ChatBot() {
           // Auto-speak the reply using browser TTS
           speakText(reply);
         } else {
-          addMessage("assistant", "Sorry, I couldn't process your request. Please try again.");
+          // If the backend returned a specific error or failed
+          if (res.status === 429 || data.error?.includes("429")) {
+            addMessage("assistant", "I am experiencing high traffic right now. Please try again in a moment.");
+          } else {
+            addMessage("assistant", "Sorry, I couldn't process your request. Please try again.");
+          }
         }
       } catch (error) {
         console.error("Chat error:", error);
@@ -99,14 +113,14 @@ export default function ChatBot() {
     const text = input.trim();
     if (!text) return;
     setInput("");
-    sendToBackend(text);
+    sendToBackend(text, "text");
   };
 
   useEffect(() => {
     const handleOpenChat = (e: Event) => {
       const customEvent = e as CustomEvent<string>;
       if (customEvent.detail) {
-        sendToBackend(customEvent.detail);
+        sendToBackend(customEvent.detail, "text");
       }
     };
     window.addEventListener("open-chat", handleOpenChat);
@@ -132,7 +146,7 @@ export default function ChatBot() {
     recognition.onresult = (event: any) => {
       const transcript = event.results?.[0]?.[0]?.transcript;
       if (transcript?.trim()) {
-        sendToBackend(transcript);
+        sendToBackend(transcript, "voice");
       }
     };
 
@@ -178,7 +192,13 @@ export default function ChatBot() {
     if (matchingVoice) utterance.voice = matchingVoice;
 
     utterance.onstart = () => setIsSpeaking(true);
-    utterance.onend = () => setIsSpeaking(false);
+    utterance.onend = () => {
+      setIsSpeaking(false);
+      // Conversational flow: auto-restart mic if last mode was voice and chat is still active
+      if (lastMode === "voice" && isActive) {
+        startRecording();
+      }
+    };
     utterance.onerror = () => setIsSpeaking(false);
 
     window.speechSynthesis.speak(utterance);

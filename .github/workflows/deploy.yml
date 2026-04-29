@@ -1,0 +1,103 @@
+name: Deploy to Google Cloud Run
+
+on:
+  workflow_dispatch:
+    inputs:
+      service_to_deploy:
+        description: 'Which service to deploy?'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - frontend
+          - backend
+
+env:
+  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+  REGION: us-central1
+  GAR_LOCATION: us-central1
+  GAR_REPOSITORY: matdatamitra-repo
+
+jobs:
+  deploy-backend:
+    if: github.event.inputs.service_to_deploy == 'all' || github.event.inputs.service_to_deploy == 'backend'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # Required for GCP Workload Identity federation or direct Auth
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Authenticate with Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+
+      - name: Configure Docker for GCP
+        run: gcloud auth configure-docker $GAR_LOCATION-docker.pkg.dev
+
+      - name: Build and Push Backend Docker Image
+        run: |
+          IMAGE_NAME="$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$GAR_REPOSITORY/backend:${{ github.sha }}"
+          docker build -t $IMAGE_NAME -f apps/backend/Dockerfile .
+          docker push $IMAGE_NAME
+
+      - name: Deploy Backend to Cloud Run
+        id: deploy
+        uses: google-github-actions/deploy-cloudrun@v2
+        with:
+          service: matdatamitra-backend
+          region: ${{ env.REGION }}
+          image: ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GAR_REPOSITORY }}/backend:${{ github.sha }}
+          flags: '--allow-unauthenticated'
+          env_vars: |
+            NODE_ENV=production
+            GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}
+            FRONTEND_URL=${{ secrets.FRONTEND_URL }}
+
+      - name: Show Backend URL
+        run: echo "Backend deployed to ${{ steps.deploy.outputs.url }}"
+
+  deploy-frontend:
+    if: github.event.inputs.service_to_deploy == 'all' || github.event.inputs.service_to_deploy == 'frontend'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Authenticate with Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+
+      - name: Configure Docker for GCP
+        run: gcloud auth configure-docker $GAR_LOCATION-docker.pkg.dev
+
+      - name: Build and Push Frontend Docker Image
+        # Pass NEXT_PUBLIC vars during build so they are baked into the Next.js static files
+        run: |
+          IMAGE_NAME="$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$GAR_REPOSITORY/frontend:${{ github.sha }}"
+          docker build \
+            --build-arg NEXT_PUBLIC_FIREBASE_API_KEY=${{ secrets.FIREBASE_API_KEY }} \
+            --build-arg NEXT_PUBLIC_BACKEND_URL=${{ secrets.BACKEND_URL }} \
+            -t $IMAGE_NAME -f apps/frontend/Dockerfile .
+          docker push $IMAGE_NAME
+
+      - name: Deploy Frontend to Cloud Run
+        id: deploy
+        uses: google-github-actions/deploy-cloudrun@v2
+        with:
+          service: matdatamitra-frontend
+          region: ${{ env.REGION }}
+          image: ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GAR_REPOSITORY }}/frontend:${{ github.sha }}
+          flags: '--allow-unauthenticated'
+
+      - name: Show Frontend URL
+        run: echo "Frontend deployed to ${{ steps.deploy.outputs.url }}"
