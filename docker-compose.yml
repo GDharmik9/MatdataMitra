@@ -4,8 +4,8 @@ services:
   # ── Backend API & WebSocket Server ──
   backend:
     build:
-      context: ./apps/backend
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: apps/backend/Dockerfile
     container_name: matdata-backend
     ports:
       - "8080:8080"
@@ -26,8 +26,11 @@ services:
   # ── Next.js Frontend ──
   frontend:
     build:
-      context: ./apps/frontend
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: apps/frontend/Dockerfile
+      args:
+        NEXT_PUBLIC_FIREBASE_API_KEY: ${NEXT_PUBLIC_FIREBASE_API_KEY}
+        NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL:-http://localhost:8080}
     container_name: matdata-frontend
     ports:
       - "3000:3000"

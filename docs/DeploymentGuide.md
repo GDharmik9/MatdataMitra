@@ -1,87 +1,72 @@
 # 🚀 Cloud Run Deployment Guide
 
-This guide explains how to deploy your MatdataMitra monorepo (both backend and frontend) to **Google Cloud Run** using the provided GitHub Actions workflow.
+This guide explains how to deploy your MatdataMitra monorepo to **Google Cloud Run**. 
+
+Because your Google Cloud Organization blocks the creation of Service Account Keys (a very common corporate/university security policy), we will use the **Direct Cloud Build Method**. This method is actually much easier—it requires **no keys**, **no terminal commands**, and **no GitHub Secrets**.
 
 ---
 
 ## 1. Why are we using Firebase?
-You asked about the use of Firebase in this project. 
 - **Firebase is ONLY used for Authentication (Google Sign-In).** 
 - We are **not** using Firebase Hosting. Both the Next.js frontend and Express backend will run on **Google Cloud Run**.
 - **The Catch:** For security, Google Sign-In only works on specific, trusted URLs. Once your frontend is deployed to Cloud Run, you **must** take the new Cloud Run URL and paste it into the Firebase Console under **Authentication -> Settings -> Authorized Domains**.
 
 ---
 
-## 2. Google Cloud Setup (One-Time)
+## 2. Deploying the Backend (No Keys Required)
 
-Before GitHub can deploy your code, you need to configure your Google Cloud project.
+We will link Google Cloud directly to your GitHub repository. Google Cloud will automatically build and deploy it whenever you push.
 
-### Step A: Enable Required APIs
-Open Google Cloud Console or run this in your terminal:
-```bash
-gcloud services enable run.googleapis.com
-gcloud services enable artifactregistry.googleapis.com
-```
-
-### Step B: Create an Artifact Registry
-This is where your Docker images will be stored before deployment.
-```bash
-gcloud artifacts repositories create matdatamitra-repo \
-  --repository-format=docker \
-  --location=us-central1
-```
-
-### Step C: Create a Service Account Key
-GitHub needs permission to access your Google Cloud project.
-1. Go to **IAM & Admin -> Service Accounts** in GCP.
-2. Create a new service account (e.g., `github-actions-deployer`).
-3. Grant it the following roles:
-   - `Cloud Run Admin`
-   - `Artifact Registry Writer`
-   - `Service Account User`
-4. Click on the new service account, go to **Keys -> Add Key -> Create New Key** (JSON).
-5. Download the JSON file (Keep this safe!).
+1. Go to the [Google Cloud Run Console](https://console.cloud.google.com/run).
+2. Click **Create Service**.
+3. Select **Continuously deploy from a repository** and click **Set up with Cloud Build**.
+4. Connect your GitHub account and select your `MatdataMitra` repository. Click Next.
+5. **Build Configuration:**
+   - **Branch:** `^main$`
+   - **Build Type:** Select `Dockerfile`
+   - **Source location:** `/`
+   - **Dockerfile location:** `apps/backend/Dockerfile`
+   - Click **Save**.
+6. **Service Settings:**
+   - Name: `matdatamitra-backend`
+   - Region: `us-central1` (or your preferred region)
+   - Authentication: Select **Allow unauthenticated invocations**.
+7. Expand the **Containers, Volumes, Networking, Security** section:
+   - Go to the **Variables & Secrets** tab.
+   - Add an Environment Variable: Name: `GEMINI_API_KEY`, Value: `<Your Gemini API Key>`
+   - Add an Environment Variable: Name: `NODE_ENV`, Value: `production`
+8. Click **Create** to deploy.
+9. *Wait for the deployment to finish, and copy the new Backend URL.*
 
 ---
 
-## 3. GitHub Secrets Setup
+## 3. Deploying the Frontend
 
-Go to your GitHub Repository **Settings -> Secrets and variables -> Actions**, and add the following **Repository Secrets**:
+Repeat the exact same steps for the frontend, but change the Dockerfile and the Environment Variables:
 
-| Secret Name | Value |
-|-------------|-------|
-| `GCP_PROJECT_ID` | Your Google Cloud Project ID (e.g., `matdatamitra-12345`) |
-| `GCP_CREDENTIALS` | The **entire content** of the JSON key file you downloaded in Step C. |
-| `GEMINI_API_KEY` | Your working Gemini API key from Google AI Studio. |
-| `FIREBASE_API_KEY` | Your `NEXT_PUBLIC_FIREBASE_API_KEY` from your local `.env`. |
+1. Click **Create Service** in Cloud Run again.
+2. Select **Continuously deploy from a repository** -> **Set up with Cloud Build** -> Select `MatdataMitra`.
+3. **Build Configuration:**
+   - **Build Type:** `Dockerfile`
+   - **Source location:** `/`
+   - **Dockerfile location:** `apps/frontend/Dockerfile`  <-- *Notice this is different!*
+4. **Service Settings:**
+   - Name: `matdatamitra-frontend`
+   - Authentication: **Allow unauthenticated invocations**.
+5. **Variables & Secrets Tab:**
+   - Add `NEXT_PUBLIC_FIREBASE_API_KEY`: `<Your Firebase Key>`
+   - Add `NEXT_PUBLIC_BACKEND_URL`: `<The URL you copied from Step 2>`
+   - Add `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN`: `matdatamitra.firebaseapp.com`
+   - Add `NEXT_PUBLIC_FIREBASE_PROJECT_ID`: `matdatamitra`
+   *(Note: Add all the `NEXT_PUBLIC_` keys from your `.env.local` file).*
+6. Click **Create**.
 
 ---
 
-## 4. How to Deploy (Manual Trigger)
+## 4. Final Step: Whitelist in Firebase
 
-Because we configured the workflow to use `workflow_dispatch`, it **will not trigger on every small commit**. You have full control.
-
-### Deployment Flow:
-1. **Push your code:**
-   ```bash
-   git add .
-   git commit -m "chore: setup deployment pipeline"
-   git push origin main
-   ```
-2. **Deploy the Backend:**
-   - Go to your GitHub repo -> **Actions** tab.
-   - Click **Deploy to Google Cloud Run** on the left menu.
-   - Click the **Run workflow** dropdown.
-   - Select `backend` from the "Which service to deploy?" dropdown.
-   - Wait for it to finish. **Copy the Backend URL** from the output logs.
-3. **Add the Backend URL to Secrets:**
-   - Go back to GitHub Secrets and add a new secret: `BACKEND_URL`. Paste the URL you just copied (e.g., `https://matdatamitra-backend-xxx.a.run.app`).
-4. **Deploy the Frontend:**
-   - Go back to the **Actions** tab.
-   - Run the workflow again, but this time select `frontend`.
-   - Wait for it to finish. **Copy the Frontend URL** from the logs.
-5. **Whitelist in Firebase:**
-   - Go to the Firebase Console -> Authentication -> Settings -> Authorized Domains.
-   - Add your new Frontend URL.
+1. Copy the Frontend URL from your newly deployed Cloud Run service.
+2. Go to the **Firebase Console** -> **Authentication** -> **Settings** -> **Authorized Domains**.
+3. Click **Add Domain** and paste your Frontend URL.
 
 You are now live! 🎉
