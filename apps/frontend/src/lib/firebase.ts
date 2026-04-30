@@ -12,6 +12,7 @@ import {
   User,
   Auth,
 } from "firebase/auth";
+import { getFirestore, Firestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY ?? "",
@@ -25,6 +26,7 @@ const firebaseConfig = {
 // Only initialize Firebase if API key is provided
 let app: FirebaseApp | null = null;
 let auth: Auth | null = null;
+let db: Firestore | null = null;
 
 function getFirebaseApp(): FirebaseApp | null {
   if (!firebaseConfig.apiKey) {
@@ -45,6 +47,16 @@ function getFirebaseAuth(): Auth | null {
     }
   }
   return auth;
+}
+
+export function getFirebaseDB(): Firestore | null {
+  if (!db) {
+    const firebaseApp = getFirebaseApp();
+    if (firebaseApp) {
+      db = getFirestore(firebaseApp);
+    }
+  }
+  return db;
 }
 
 const googleProvider = new GoogleAuthProvider();
