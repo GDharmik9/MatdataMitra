@@ -6,6 +6,10 @@ MatdataMitra acts as an intelligent reasoning layer between complex government d
 
 ![MatdataMitra Dashboard](https://github.com/user-attachments/assets/matdatamitra-banner.png)
 
+## 🌐 Live Demonstration (Cloud Run)
+- **Frontend Portal**: [https://frontend-1052506309358.asia-south1.run.app](https://frontend-1052506309358.asia-south1.run.app)
+- **Backend API**: [https://backend-1052506309358.asia-south1.run.app/health](https://backend-1052506309358.asia-south1.run.app/health)
+
 ## ✨ Key Features
 
 1. **AI Chat Assistant (Floating Widget)**
@@ -27,8 +31,11 @@ MatdataMitra acts as an intelligent reasoning layer between complex government d
 6. **Interactive Voter Timeline**
    - A step-by-step interactive roadmap that guides users from registration to polling day.
 
-7. **Universal Accessibility (PwD Support)**
-   - High Contrast modes, Font Scaling, and Reduced Motion settings built-in for Persons with Disabilities (PwD) voters.
+7. **Universal Accessibility (PwD Support & WCAG)**
+   - High Contrast modes, Font Scaling, ARIA labels, Keyboard navigation, and dynamic language tagging built-in for Persons with Disabilities (PwD) voters.
+
+8. **Firestore "Cost-Saving Wall" (Efficiency)**
+   - Before hitting the Gemini RAG API, incoming queries are intercepted and matched against local Firestore keywords. Common queries (like "Form 6") instantly return verified forms at 0ms latency and $0 cost.
 
 ---
 
@@ -93,6 +100,13 @@ yarn dev
 ```
 - **Frontend UI:** `http://localhost:3000`
 - **Backend API:** `http://localhost:8080`
+
+### 6. Run Tests
+The project includes automated tests using Jest and React Testing Library:
+```bash
+yarn workspace frontend test
+yarn workspace backend test
+```
 
 ---
 
