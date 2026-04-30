@@ -7,6 +7,7 @@ import { Router, Request, Response } from "express";
 import { generateResponse, determineIntent } from "../services/gemini.service";
 import { buildAugmentedPrompt } from "../services/rag.service";
 import { translateText } from "../services/bhashini.service";
+import { findLocalAnswer } from "../services/firestore.service";
 import type { ChatRequest, ChatResponse, ApiResponse } from "@matdata-mitra/shared-types";
 
 const router = Router();
@@ -43,7 +44,41 @@ router.post("/", async (req: Request, res: Response) => {
       }
     }
 
-    // Step 2: Determine intent
+    // Step 2: Check Local Database FIRST (The "Wall")
+    const localAnswer = await findLocalAnswer(processableText);
+    
+    if (localAnswer) {
+      console.log(`🛡️  Wall activated: Returning local data, bypassing Gemini API.`);
+      
+      // Translate back if necessary
+      let finalReply = localAnswer;
+      if (language !== "en") {
+        try {
+          finalReply = await translateText(localAnswer, "en", language);
+        } catch {
+          finalReply = localAnswer;
+        }
+      }
+
+      return res.json({
+        success: true,
+        data: {
+          reply: localAnswer,
+          translatedReply: language !== "en" ? finalReply : undefined,
+          language,
+          sources: [{ 
+            documentId: "local-db", 
+            title: "MatdataMitra Local Cache", 
+            excerpt: "Retrieved from Firestore cache", 
+            relevanceScore: 1.0, 
+            source: "Firestore" 
+          }]
+        },
+        timestamp: Date.now(),
+      } satisfies ApiResponse<ChatResponse>);
+    }
+
+    // Step 3: Determine intent (only if local DB didn't match)
     const intent = await determineIntent(processableText);
     console.log(`🎯 Intent: ${intent.intent} (${intent.confidence})`);
 

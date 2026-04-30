@@ -10,20 +10,21 @@
     "lint": "eslint src/"
   },
   "dependencies": {
-    "@google/genai": "^1.0.0",
     "@google-cloud/speech": "^6.7.0",
+    "@google-cloud/storage": "^7.15.0",
     "@google-cloud/text-to-speech": "^5.5.0",
     "@google-cloud/translate": "^8.5.0",
-    "@google-cloud/storage": "^7.15.0",
+    "@google/genai": "^1.0.0",
+    "@matdata-mitra/shared-types": "*",
     "axios": "^1.7.9",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "express-rate-limit": "^7.5.0",
+    "firebase-admin": "^13.8.0",
     "helmet": "^8.0.0",
     "uuid": "^11.1.0",
-    "ws": "^8.18.0",
-    "@matdata-mitra/shared-types": "*"
+    "ws": "^8.18.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
