@@ -5,9 +5,7 @@ import dynamic from "next/dynamic";
 import Navbar from "@/components/Navbar";
 
 // Lazy-load the chat widget since it's not needed for initial paint
-const FloatingChat = dynamic(() => import("@/components/FloatingChat"), {
-  ssr: false,
-});
+const FloatingChat = dynamic(() => import("@/components/FloatingChat"));
 
 export const metadata: Metadata = {
   title: "MatdataMitra — मतदाता मित्र | Interactive Electoral Assistant",
