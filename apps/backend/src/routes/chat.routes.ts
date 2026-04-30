@@ -39,9 +39,8 @@ router.post("/", async (req: Request, res: Response) => {
       return res.status(400).json({
         success: false,
         error: "Invalid request data",
-        details: parsed.error.issues,
         timestamp: Date.now(),
-      } satisfies ApiResponse);
+      } as ApiResponse);
     }
 
     const { message, language } = parsed.data;
