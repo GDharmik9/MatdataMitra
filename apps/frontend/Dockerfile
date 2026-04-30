@@ -46,6 +46,7 @@ WORKDIR /app
 # Since we didn't enable standalone in Next config yet, we'll copy standard outputs
 COPY --from=builder /app/apps/frontend/package.json ./
 COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/packages/shared-types/package.json ./packages/shared-types/package.json
 COPY --from=builder /app/packages/shared-types/dist ./packages/shared-types/dist
 COPY --from=builder /app/apps/frontend/.next ./.next
 COPY --from=builder /app/apps/frontend/public ./public

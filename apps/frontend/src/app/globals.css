@@ -66,7 +66,7 @@ a:hover {
 
 /* ── Navbar ── */
 .navbar {
-  position: sticky;
+  position: relative;
   top: 0;
   z-index: 100;
   display: flex;
@@ -76,6 +76,36 @@ a:hover {
   background: rgba(10, 10, 26, 0.85);
   backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border-glass);
+}
+
+/* ── Google Translate Overrides ── */
+.goog-te-banner-frame.skiptranslate {
+  display: none !important;
+}
+body {
+  top: 0px !important;
+}
+#goog-gt-tt {
+  display: none !important;
+}
+.goog-te-gadget {
+  color: transparent !important;
+  font-size: 0px !important;
+}
+.goog-te-gadget .goog-te-combo {
+  color: var(--text-primary) !important;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-color);
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  cursor: pointer;
+}
+.nav-translator {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
 }
 
 .nav-brand {

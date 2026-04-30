@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { onAuthChange, signOut } from "@/lib/firebase";
 import type { User } from "@/lib/firebase";
+import GoogleTranslate from "./GoogleTranslate";
 
 export default function Navbar() {
   const [user, setUser] = useState<User | null>(null);
@@ -22,9 +23,15 @@ export default function Navbar() {
         <span className="nav-title">MatdataMitra</span>
       </a>
       <div className="nav-links">
-        <a href="/timeline">Timeline</a>
-        <a href="/verify">Verify</a>
-        <a href="/candidates">KYC</a>
+        <a href="/">Home</a>
+        <a href="/forms">Forms</a>
+        <a href="/guidelines">Guidelines</a>
+        <a href="/updates">Updates</a>
+        
+        {/* Language Translator */}
+        <div className="nav-translator">
+          <GoogleTranslate />
+        </div>
         
         {loading ? (
           <span className="nav-loading">...</span>
