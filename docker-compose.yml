@@ -18,7 +18,7 @@ services:
       - ./apps/backend/src:/app/src
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/health"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -38,7 +38,8 @@ services:
       - .env
     environment:
       - NODE_ENV=development
-      - NEXT_PUBLIC_BACKEND_URL=http://backend:8080
+      - PORT=3000
+      - NEXT_PUBLIC_BACKEND_URL=http://localhost:8080
     depends_on:
       backend:
         condition: service_healthy
