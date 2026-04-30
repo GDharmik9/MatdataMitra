@@ -237,7 +237,7 @@ export default function ChatBot({ isActive = true, initialMode = "text" }: { isA
       </div>
 
       {/* Messages */}
-      <div className="chatbot-messages">
+      <div className="chatbot-messages" aria-live="polite" aria-atomic="false">
         {messages.length === 0 && (
           <div className="chatbot-welcome">
             <span className="chatbot-welcome-icon">🇮🇳</span>

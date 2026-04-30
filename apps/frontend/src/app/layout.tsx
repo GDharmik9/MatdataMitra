@@ -1,8 +1,13 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 // import AccessibilityPanel from "@/components/AccessibilityPanel";
+import dynamic from "next/dynamic";
 import Navbar from "@/components/Navbar";
-import FloatingChat from "@/components/FloatingChat";
+
+// Lazy-load the chat widget since it's not needed for initial paint
+const FloatingChat = dynamic(() => import("@/components/FloatingChat"), {
+  ssr: false,
+});
 
 export const metadata: Metadata = {
   title: "MatdataMitra — मतदाता मित्र | Interactive Electoral Assistant",

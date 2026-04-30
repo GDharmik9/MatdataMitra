@@ -8,6 +8,7 @@ import { generateResponse, determineIntent } from "../services/gemini.service";
 import { buildAugmentedPrompt } from "../services/rag.service";
 import { translateText } from "../services/bhashini.service";
 import { findLocalAnswer } from "../services/firestore.service";
+import { apiCache, generateCacheKey } from "../services/cache.service";
 import type { ChatRequest, ChatResponse, ApiResponse } from "@matdata-mitra/shared-types";
 
 import { z } from "zod";
@@ -44,6 +45,20 @@ router.post("/", async (req: Request, res: Response) => {
     }
 
     const { message, language } = parsed.data;
+
+    // --- CACHE CHECK ---
+    const cacheKey = generateCacheKey(language, message);
+    const cachedResponse = apiCache.get<ChatResponse>(cacheKey);
+    
+    if (cachedResponse) {
+      console.log(`⚡ Cache Hit! Returning response in 0ms for: "${message}"`);
+      return res.json({
+        success: true,
+        data: cachedResponse,
+        timestamp: Date.now(),
+      } satisfies ApiResponse<ChatResponse>);
+    }
+    // -------------------
 
     // Step 1: Translate to English for processing
     let processableText = message;
@@ -120,6 +135,9 @@ router.post("/", async (req: Request, res: Response) => {
       language,
       sources: ragContext.retrievedDocuments,
     };
+
+    // Store in cache for future identical queries (5 minutes TTL)
+    apiCache.set(cacheKey, response);
 
     return res.json({
       success: true,

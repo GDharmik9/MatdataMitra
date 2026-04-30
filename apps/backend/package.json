@@ -24,6 +24,7 @@
     "express-rate-limit": "^8.4.1",
     "firebase-admin": "^13.8.0",
     "helmet": "^8.0.0",
+    "node-cache": "^5.1.2",
     "uuid": "^11.1.0",
     "ws": "^8.18.0",
     "zod": "^4.4.1"
@@ -34,6 +35,7 @@
     "@types/express-rate-limit": "^6.0.2",
     "@types/jest": "^30.0.0",
     "@types/node": "^22.12.0",
+    "@types/node-cache": "^4.2.5",
     "@types/supertest": "^7.2.0",
     "@types/uuid": "^10.0.0",
     "@types/ws": "^8.5.14",
