@@ -7,23 +7,30 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "clean": "rm -rf .next out"
+    "clean": "rm -rf .next out",
+    "test": "jest"
   },
   "dependencies": {
+    "@matdata-mitra/shared-types": "*",
+    "firebase": "^11.4.0",
     "next": "^15.3.0",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "firebase": "^11.4.0",
-    "@matdata-mitra/shared-types": "*"
+    "react-dom": "^19.1.0"
   },
   "devDependencies": {
+    "@serwist/next": "^9.0.0",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@types/jest": "^30.0.0",
     "@types/node": "^22.12.0",
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.0",
-    "typescript": "^5.7.0",
     "eslint": "^9.0.0",
     "eslint-config-next": "^15.3.0",
-    "@serwist/next": "^9.0.0",
-    "serwist": "^9.0.0"
+    "jest": "^30.3.0",
+    "jest-environment-jsdom": "^30.3.0",
+    "serwist": "^9.0.0",
+    "typescript": "^5.7.0"
   }
 }

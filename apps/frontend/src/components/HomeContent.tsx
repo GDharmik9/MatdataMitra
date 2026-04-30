@@ -69,13 +69,16 @@ export default function HomeContent() {
     <>
       <form className="home-search-container" onSubmit={handleSearchSubmit}>
         <div className="home-search-input-wrapper">
-          <span className="home-search-icon">✨</span>
+          <span className="home-search-icon" aria-hidden="true">✨</span>
           <input
             type="text"
             className="home-search-input"
             placeholder="Search forms, guidelines, SRC, or registration info..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            aria-label="Search ECI information"
+            role="searchbox"
+            aria-autocomplete="list"
           />
         </div>
         
@@ -85,7 +88,10 @@ export default function HomeContent() {
             <button 
               key={keyword} 
               type="button" 
+              role="option"
+              aria-selected={searchQuery === keyword}
               onClick={() => setSearchQuery(keyword)}
+              onKeyDown={(e) => e.key === "Enter" && setSearchQuery(keyword)}
               style={{ padding: "5px 12px", borderRadius: "15px", border: "1px solid var(--border-color)", background: "var(--card-bg)", color: "var(--text-secondary)", cursor: "pointer", fontSize: "0.85rem" }}
             >
               {keyword}

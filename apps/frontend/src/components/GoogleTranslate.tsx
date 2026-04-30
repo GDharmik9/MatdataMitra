@@ -75,6 +75,7 @@ export default function GoogleTranslate() {
   const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const lang = e.target.value;
     setSelectedLanguage(lang);
+    document.documentElement.lang = lang;
     triggerGoogleTranslate(lang);
   };
 

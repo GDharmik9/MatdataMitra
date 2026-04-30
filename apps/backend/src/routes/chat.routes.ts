@@ -10,6 +10,14 @@ import { translateText } from "../services/bhashini.service";
 import { findLocalAnswer } from "../services/firestore.service";
 import type { ChatRequest, ChatResponse, ApiResponse } from "@matdata-mitra/shared-types";
 
+import { z } from "zod";
+
+const chatSchema = z.object({
+  message: z.string().min(1).max(2000),
+  language: z.enum(['en','hi','mr','bn','te','ta','gu','kn','ml','pa','or','as','ur']).optional().default('en'),
+  conversationId: z.string().uuid().optional(),
+});
+
 const router = Router();
 
 /**
@@ -24,15 +32,18 @@ const router = Router();
  */
 router.post("/", async (req: Request, res: Response) => {
   try {
-    const { message, language = "en" }: ChatRequest = req.body;
-
-    if (!message?.trim()) {
+    const parsed = chatSchema.safeParse(req.body);
+    
+    if (!parsed.success) {
       return res.status(400).json({
         success: false,
-        error: "Message is required",
+        error: "Invalid request data",
+        details: parsed.error.issues,
         timestamp: Date.now(),
       } satisfies ApiResponse);
     }
+
+    const { message, language } = parsed.data;
 
     // Step 1: Translate to English for processing
     let processableText = message;

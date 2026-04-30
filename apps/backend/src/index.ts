@@ -19,12 +19,25 @@ import civicRoutes from "./routes/civic.routes";
 import candidateRoutes from "./routes/candidate.routes";
 import whatsappRoutes from "./routes/whatsapp.routes";
 
-const app = express();
+export const app = express();
 const server = http.createServer(app);
 
 // ── Global Middleware ──
 app.use(helmet());
-app.use(cors({ origin: true, credentials: true }));
+const allowedOrigins = [
+  "http://localhost:3000",
+  "http://127.0.0.1:3000",
+  "https://matdatamitra.com"
+];
+
+if (env.FRONTEND_URL) {
+  allowedOrigins.push(env.FRONTEND_URL);
+}
+
+app.use(cors({ 
+  origin: allowedOrigins,
+  credentials: true 
+}));
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
 
