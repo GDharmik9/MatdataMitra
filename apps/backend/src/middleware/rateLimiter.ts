@@ -2,7 +2,7 @@
 // MatdataMitra Backend — Rate Limiter Middleware
 // ============================================================
 
-import rateLimit, { ipKeyGenerator } from "express-rate-limit";
+import rateLimit from "express-rate-limit";
 import { env } from "../config/env";
 
 /** General API rate limiter */
@@ -11,6 +11,7 @@ export const apiLimiter = rateLimit({
   max: env.RATE_LIMIT_MAX_REQUESTS,
   standardHeaders: true,
   legacyHeaders: false,
+  validate: { ip: false },
   message: {
     success: false,
     error: "Too many requests. Please try again later.",
@@ -24,11 +25,12 @@ export const whatsappLimiter = rateLimit({
   max: env.WHATSAPP_RATE_LIMIT_MAX,
   standardHeaders: true,
   legacyHeaders: false,
-  keyGenerator: (req, res) => {
+  validate: { ip: false },
+  keyGenerator: (req) => {
     // Rate limit per sender phone number
-    const from =
-      req.body?.entry?.[0]?.changes?.[0]?.value?.messages?.[0]?.from;
-    return from ?? ipKeyGenerator(req, res);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const from = (req.body as any)?.entry?.[0]?.changes?.[0]?.value?.messages?.[0]?.from;
+    return from ?? req.ip ?? "unknown";
   },
   message: {
     success: false,
@@ -43,6 +45,7 @@ export const voterVerifyLimiter = rateLimit({
   max: 5, // 5 requests per minute per IP
   standardHeaders: true,
   legacyHeaders: false,
+  validate: { ip: false },
   message: {
     success: false,
     error: "Too many verification attempts. Please wait a minute.",
