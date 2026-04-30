@@ -2,7 +2,7 @@
 // MatdataMitra Backend — Rate Limiter Middleware
 // ============================================================
 
-import rateLimit from "express-rate-limit";
+import rateLimit, { ipKeyGenerator } from "express-rate-limit";
 import { env } from "../config/env";
 
 /** General API rate limiter */
@@ -24,11 +24,11 @@ export const whatsappLimiter = rateLimit({
   max: env.WHATSAPP_RATE_LIMIT_MAX,
   standardHeaders: true,
   legacyHeaders: false,
-  keyGenerator: (req) => {
+  keyGenerator: (req, res) => {
     // Rate limit per sender phone number
     const from =
       req.body?.entry?.[0]?.changes?.[0]?.value?.messages?.[0]?.from;
-    return from ?? req.ip ?? "unknown";
+    return from ?? ipKeyGenerator(req, res);
   },
   message: {
     success: false,
