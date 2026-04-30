@@ -2,6 +2,17 @@
 
 import { useState, useEffect } from "react";
 
+declare global {
+  interface Window {
+    googleTranslateElementInit: () => void;
+    google: {
+      translate: {
+        TranslateElement: new (options: Record<string, unknown>, elementId: string) => void;
+      };
+    };
+  }
+}
+
 const LANGUAGES = [
   { code: "en", label: "English" },
   { code: "hi", label: "हिन्दी (Hindi)" },
@@ -54,10 +65,8 @@ export default function GoogleTranslate() {
     }
 
     // Initialize the hidden Google Translate widget
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (window as any).googleTranslateElementInit = () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      new (window as any).google.translate.TranslateElement(
+    window.googleTranslateElementInit = () => {
+      new window.google.translate.TranslateElement(
         { pageLanguage: "en", autoDisplay: false },
         "google_translate_element"
       );
