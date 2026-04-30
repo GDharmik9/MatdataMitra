@@ -79,19 +79,24 @@ a:hover {
 }
 
 /* ── Google Translate Overrides ── */
-.goog-te-banner-frame.skiptranslate {
+.skiptranslate,
+.goog-te-banner-frame {
   display: none !important;
 }
+
 body {
   top: 0px !important;
 }
+
 #goog-gt-tt {
   display: none !important;
 }
+
 .goog-te-gadget {
   color: transparent !important;
   font-size: 0px !important;
 }
+
 .goog-te-gadget .goog-te-combo {
   color: var(--text-primary) !important;
   background: rgba(255, 255, 255, 0.1);
@@ -102,6 +107,7 @@ body {
   font-size: 14px;
   cursor: pointer;
 }
+
 .nav-translator {
   display: flex;
   align-items: center;
