@@ -19,7 +19,7 @@ export default function Navbar() {
   return (
     <nav className="navbar">
       <a href="/" className="nav-brand">
-        <span className="nav-logo">🗳️</span>
+        <img src="/images/logo_mitra.png" alt="Logo" className="nav-logo" />
         <span className="nav-title">MatdataMitra</span>
       </a>
       <div className="nav-links">
@@ -27,12 +27,12 @@ export default function Navbar() {
         <a href="/forms">Forms</a>
         <a href="/guidelines">Guidelines</a>
         <a href="/updates">Updates</a>
-        
+
         {/* Language Translator */}
         <div className="nav-translator">
           <GoogleTranslate />
         </div>
-        
+
         {loading ? (
           <span className="nav-loading">...</span>
         ) : user ? (
