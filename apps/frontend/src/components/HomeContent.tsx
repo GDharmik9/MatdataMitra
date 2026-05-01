@@ -176,6 +176,13 @@ export default function HomeContent() {
                 <p>Test your knowledge with unique AI-generated questions and earn the Defender badge!</p>
               </div>
             </Link>
+            <Link href="/know-your-candidate" style={{ textDecoration: 'none', color: 'inherit' }}>
+              <div className="feature-card" style={{ height: '100%', cursor: 'pointer', transition: 'transform 0.2s', border: '1px solid var(--primary-color)' }}>
+                <span className="feature-icon">📄</span>
+                <h3>Know Your Candidate</h3>
+                <p>Upload an affidavit. AI instantly extracts criminal records, assets, and education data.</p>
+              </div>
+            </Link>
             <div className="feature-card">
               <span className="feature-icon">🤖</span>
               <h3>AI-Powered Guidance</h3>

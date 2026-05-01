@@ -215,6 +215,67 @@ Each object in the array must represent a question and have exactly these keys:
   }
 }
 
+/**
+ * Analyze a Candidate Affidavit (Form 26 PDF) to extract KYC details
+ * @param base64Pdf The base64 encoded PDF string
+ * @param mimeType Must be application/pdf
+ */
+export async function analyzeCandidateAffidavit(base64Pdf: string, mimeType: string): Promise<any> {
+  try {
+    const prompt = `You are an expert OCR and data extraction system for the Election Commission of India.
+Please analyze this candidate affidavit (Form 26). Extract the following details into a strict JSON format.
+If a field is not found or is unreadable, use null.
+
+Output STRICTLY a valid JSON object with the following keys:
+- "candidateName": string
+- "party": string
+- "constituency": string
+- "criminalCases": { "count": number, "summary": string }
+- "totalAssets": string (e.g., "Rs. 2,50,00,000")
+- "totalLiabilities": string (e.g., "Rs. 10,00,000")
+- "education": string (Highest qualification found)
+
+Do not include markdown formatting or backticks in the response.`;
+
+    const response = await genai.models.generateContent({
+      model: env.GEMINI_MODEL,
+      contents: [
+        {
+          role: "user",
+          parts: [
+            { text: prompt },
+            {
+              inlineData: {
+                data: base64Pdf,
+                mimeType,
+              },
+            },
+          ],
+        },
+      ],
+      config: {
+        temperature: 0.1,
+        responseMimeType: "application/json",
+      },
+    });
+
+    const text = response.text;
+    if (!text) {
+      throw new Error("No response from Gemini Vision");
+    }
+
+    try {
+      return JSON.parse(text.trim());
+    } catch (parseError) {
+      console.error("Failed to parse Gemini Vision JSON response for affidavit:", text);
+      throw parseError;
+    }
+  } catch (error) {
+    console.error("Gemini Affidavit Analysis Error:", error);
+    throw error;
+  }
+}
+
 
 /**
  * Determine user intent from their query

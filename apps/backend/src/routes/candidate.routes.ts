@@ -9,6 +9,8 @@ import {
   getCandidateById,
   getConstituencies,
 } from "../services/candidate.service";
+import { analyzeCandidateAffidavit } from "../services/gemini.service";
+import { apiLimiter } from "../middleware/rateLimiter";
 import type { ApiResponse } from "@matdata-mitra/shared-types";
 
 const router = Router();
@@ -54,6 +56,47 @@ router.get("/:id", (req: Request, res: Response) => {
     data: candidate,
     timestamp: Date.now(),
   } satisfies ApiResponse);
+});
+
+/** POST /api/candidates/analyze-affidavit — Extract data from Form 26 PDF */
+router.post("/analyze-affidavit", apiLimiter, async (req: Request, res: Response) => {
+  try {
+    const { base64Data, mimeType } = req.body;
+
+    if (!base64Data || !mimeType) {
+      return res.status(400).json({
+        success: false,
+        error: "Missing base64Data or mimeType",
+        timestamp: Date.now(),
+      } satisfies ApiResponse);
+    }
+
+    if (mimeType !== "application/pdf") {
+      return res.status(400).json({
+        success: false,
+        error: "Only PDF files are supported for affidavit analysis",
+        timestamp: Date.now(),
+      } satisfies ApiResponse);
+    }
+
+    const data = await analyzeCandidateAffidavit(base64Data, mimeType);
+
+    return res.json({
+      success: true,
+      data,
+      message: "Affidavit analyzed successfully.",
+      timestamp: Date.now(),
+    } satisfies ApiResponse<any>);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Affidavit analysis failed.";
+    console.error("Affidavit route error:", message);
+
+    return res.status(500).json({
+      success: false,
+      error: message,
+      timestamp: Date.now(),
+    } satisfies ApiResponse);
+  }
 });
 
 export default router;
