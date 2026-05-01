@@ -211,7 +211,7 @@ export default function ChatBot({ isActive = true, initialMode = "text" }: { isA
       {/* Header */}
       <div className="chatbot-header">
         <div className="chatbot-header-info">
-          <span className="chatbot-avatar">🗳️</span>
+          <img src="/images/logo_mitra.png" alt="Logo" className="nav-logo" />
           <div>
             <h2>MatdataMitra</h2>
             <span className="chatbot-status">

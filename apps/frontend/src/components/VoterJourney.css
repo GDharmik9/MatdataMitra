@@ -2,6 +2,7 @@
   max-width: 800px;
   margin: 0 auto;
   padding: 1rem;
+  color: var(--text-primary);
 }
 
 .journey-header {
@@ -10,20 +11,21 @@
 }
 
 .journey-header h2 {
-  color: var(--primary-color, #1a5f7a);
+  color: var(--accent);
   margin-bottom: 0.5rem;
 }
 
 .card-panel {
-  background: var(--card-bg, #ffffff);
-  border-radius: 12px;
+  background: var(--bg-glass);
+  border-radius: var(--radius-md);
   padding: 2rem;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-  border: 1px solid var(--border-color, #eee);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  border: 1px solid var(--border-glass);
+  color: var(--text-primary);
 }
 
 .subtitle {
-  color: var(--text-secondary, #666);
+  color: var(--text-secondary);
   margin-bottom: 1.5rem;
 }
 
@@ -34,23 +36,44 @@
   flex-wrap: wrap;
 }
 
+.btn-outline {
+  background: var(--bg-card);
+  border: 1px solid var(--border-glass);
+  color: var(--text-primary);
+  padding: 0.5rem 1.2rem;
+  border-radius: var(--radius-xl);
+  cursor: pointer;
+  font-weight: 500;
+  transition: all var(--transition);
+}
+
+.btn-outline:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-glow);
+}
+
 .situation-input {
   width: 100%;
   padding: 1rem;
-  border: 1px solid var(--border-color, #ccc);
-  border-radius: 8px;
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-md);
   font-family: inherit;
   font-size: 1rem;
   resize: vertical;
-  background: var(--bg-color, #f9f9f9);
-  color: var(--text-primary, #333);
+  background: var(--bg-card);
+  color: var(--text-primary);
   margin-bottom: 1.5rem;
   transition: border-color 0.2s;
 }
 
+.situation-input::placeholder {
+  color: var(--text-muted);
+}
+
 .situation-input:focus {
   outline: none;
-  border-color: var(--primary-color, #1a5f7a);
+  border-color: var(--accent);
 }
 
 .generate-btn {
@@ -65,8 +88,8 @@
 }
 
 .spinner {
-  border: 4px solid rgba(26, 95, 122, 0.2);
-  border-left-color: var(--primary-color, #1a5f7a);
+  border: 4px solid rgba(255,255,255,0.1);
+  border-left-color: var(--accent);
   border-radius: 50%;
   width: 50px;
   height: 50px;
@@ -80,11 +103,11 @@
 }
 
 .checklist-panel {
-  background: var(--card-bg, #ffffff);
-  border-radius: 12px;
+  background: var(--bg-glass);
+  border-radius: var(--radius-md);
   padding: 2rem;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-  border: 1px solid var(--border-color, #eee);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  border: 1px solid var(--border-glass);
 }
 
 .checklist-header {
@@ -93,7 +116,7 @@
 
 .progress-bar-container {
   height: 10px;
-  background: var(--bg-color, #eee);
+  background: var(--bg-card);
   border-radius: 5px;
   overflow: hidden;
   margin: 1rem 0 0.5rem;
@@ -101,13 +124,13 @@
 
 .progress-bar {
   height: 100%;
-  background: #4caf50;
+  background: var(--success);
   transition: width 0.3s ease;
 }
 
 .progress-text {
   font-size: 0.9rem;
-  color: var(--text-secondary, #666);
+  color: var(--text-secondary);
   text-align: right;
   margin: 0;
 }
@@ -123,16 +146,15 @@
   display: flex;
   gap: 1rem;
   padding: 1.5rem;
-  border-radius: 8px;
-  border: 1px solid var(--border-color, #eee);
-  background: var(--bg-color, #fafafa);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-glass);
+  background: var(--bg-card);
   transition: all 0.2s ease;
 }
 
 .checklist-item.completed {
-  opacity: 0.7;
-  background: rgba(76, 175, 80, 0.05);
-  border-color: #4caf50;
+  opacity: 0.65;
+  border-color: var(--success);
 }
 
 .checkbox-wrapper {
@@ -143,7 +165,7 @@
 .custom-checkbox {
   width: 24px;
   height: 24px;
-  border: 2px solid var(--border-color, #ccc);
+  border: 2px solid var(--border-glass);
   border-radius: 6px;
   display: flex;
   align-items: center;
@@ -151,33 +173,33 @@
   font-weight: bold;
   color: white;
   transition: all 0.2s ease;
-  background: white;
+  background: var(--bg-secondary);
 }
 
 .custom-checkbox.checked {
-  background: #4caf50;
-  border-color: #4caf50;
+  background: var(--success);
+  border-color: var(--success);
 }
 
 .item-content h4 {
   margin: 0 0 0.5rem 0;
-  color: var(--text-primary, #333);
+  color: var(--text-primary);
   font-size: 1.1rem;
 }
 
 .checklist-item.completed .item-content h4 {
   text-decoration: line-through;
-  color: var(--text-secondary, #666);
+  color: var(--text-muted);
 }
 
 .item-content p {
   margin: 0 0 0.5rem 0;
-  color: var(--text-secondary, #555);
+  color: var(--text-secondary);
   line-height: 1.5;
 }
 
 .item-link {
-  color: var(--primary-color, #1a5f7a);
+  color: var(--accent);
   font-weight: 500;
   text-decoration: none;
   font-size: 0.9rem;
@@ -190,4 +212,13 @@
 .reset-btn {
   display: block;
   margin: 0 auto;
+}
+
+.error-message {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid var(--error);
+  color: var(--error);
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-sm);
+  margin-bottom: 1rem;
 }

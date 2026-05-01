@@ -255,7 +255,7 @@ body {
 .hero-content {
   position: relative;
   z-index: 1;
-  max-width: 700px;
+  max-width: 1260px;
   margin: 0 auto;
 }
 
@@ -265,14 +265,14 @@ body {
   background: var(--bg-glass);
   border: 1px solid var(--border-glass);
   border-radius: var(--radius-xl);
-  font-size: 0.85rem;
+  font-size: 1rem;
   color: var(--accent);
   margin-bottom: 1.5rem;
 }
 
 .hero h1 {
   font-family: var(--font-display);
-  font-size: 3.5rem;
+  font-size: 4rem;
   font-weight: 800;
   line-height: 1.1;
   margin-bottom: 1.5rem;
@@ -286,7 +286,7 @@ body {
 }
 
 .hero-subtitle {
-  font-size: 1.15rem;
+  font-size: 1.5rem;
   color: var(--text-secondary);
   max-width: 550px;
   margin: 0 auto 2rem;
@@ -329,7 +329,7 @@ body {
 /* Features */
 .features {
   padding: 4rem 2rem;
-  max-width: 1100px;
+  /* max-width: 1100px; */
   margin: 0 auto;
 }
 
@@ -1496,7 +1496,7 @@ html.high-contrast a {
 
 /* ── Home Search Bar ── */
 .home-search-container {
-  max-width: 600px;
+  max-width: 850px;
   margin: 0 auto 2.5rem;
   width: 100%;
   animation: fadeUp 0.7s ease-out backwards 0.3s;
