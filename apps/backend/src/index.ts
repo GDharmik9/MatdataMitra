@@ -20,6 +20,7 @@ import candidateRoutes from "./routes/candidate.routes";
 import whatsappRoutes from "./routes/whatsapp.routes";
 import documentRoutes from "./routes/document.routes";
 import journeyRoutes from "./routes/journey.routes";
+import quizRoutes from "./routes/quiz.routes";
 
 export const app = express();
 const server = http.createServer(app);
@@ -61,6 +62,7 @@ app.use("/api/candidates", apiLimiter, candidateRoutes);
 app.use("/api/whatsapp", whatsappRoutes);
 app.use("/api/document", documentRoutes);
 app.use("/api/journey", apiLimiter, journeyRoutes);
+app.use("/api/quiz", apiLimiter, quizRoutes);
 
 
 // ── 404 Handler ──

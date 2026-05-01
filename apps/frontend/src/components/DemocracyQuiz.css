@@ -1,0 +1,256 @@
+.quiz-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.quiz-card {
+  background: var(--card-bg, #ffffff);
+  border-radius: 12px;
+  padding: 2.5rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  border: 1px solid var(--border-color, #eee);
+  text-align: center;
+}
+
+.quiz-icon {
+  font-size: 4rem;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.start-screen h2 {
+  color: var(--primary-color, #1a5f7a);
+  margin-bottom: 1rem;
+}
+
+.start-screen p {
+  color: var(--text-secondary, #666);
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+.quiz-rules {
+  text-align: left;
+  max-width: 400px;
+  margin: 0 auto 2rem;
+  padding: 1.5rem;
+  background: var(--bg-color, #f9f9f9);
+  border-radius: 8px;
+  border-left: 4px solid var(--primary-color, #1a5f7a);
+}
+
+.quiz-rules li {
+  margin-bottom: 0.5rem;
+  color: var(--text-primary, #333);
+}
+
+.start-btn {
+  font-size: 1.2rem;
+  padding: 1rem 3rem;
+}
+
+.loading-screen {
+  padding: 4rem 2rem;
+}
+
+.quiz-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.quiz-header h2 {
+  color: var(--primary-color, #1a5f7a);
+  margin: 0;
+}
+
+.quiz-progress {
+  font-weight: 500;
+  color: var(--text-secondary, #666);
+  background: var(--bg-color, #eee);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+}
+
+.question-screen {
+  text-align: left;
+}
+
+.question-text {
+  font-size: 1.3rem;
+  color: var(--text-primary, #333);
+  margin-bottom: 2rem;
+  line-height: 1.5;
+}
+
+.options-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.option-btn {
+  padding: 1.2rem;
+  font-size: 1.1rem;
+  text-align: left;
+  background: var(--bg-color, #f9f9f9);
+  border: 2px solid var(--border-color, #ddd);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--text-primary, #333);
+  font-weight: 500;
+}
+
+.option-btn:hover:not(:disabled) {
+  border-color: var(--primary-color, #1a5f7a);
+  background: rgba(26, 95, 122, 0.05);
+}
+
+.option-btn:disabled {
+  cursor: default;
+  opacity: 0.8;
+}
+
+.option-btn.correct {
+  background: rgba(76, 175, 80, 0.1);
+  border-color: #4caf50;
+  color: #2e7d32;
+}
+
+.option-btn.wrong {
+  background: rgba(244, 67, 54, 0.1);
+  border-color: #f44336;
+  color: #c62828;
+}
+
+.explanation-box {
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-top: 2rem;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.explanation-box.success {
+  background: rgba(76, 175, 80, 0.1);
+  border-left: 4px solid #4caf50;
+}
+
+.explanation-box.error {
+  background: rgba(244, 67, 54, 0.1);
+  border-left: 4px solid #f44336;
+}
+
+.explanation-box h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+}
+
+.explanation-box.success h4 { color: #2e7d32; }
+.explanation-box.error h4 { color: #c62828; }
+
+.explanation-box p {
+  margin: 0 0 1.5rem 0;
+  color: var(--text-primary, #333);
+  line-height: 1.5;
+}
+
+.next-btn {
+  float: right;
+}
+
+.results-screen {
+  padding: 4rem 2rem;
+}
+
+.score-display {
+  margin: 2rem 0;
+}
+
+.score-number {
+  font-size: 5rem;
+  font-weight: 800;
+  color: var(--primary-color, #1a5f7a);
+}
+
+.score-total {
+  font-size: 2rem;
+  color: var(--text-secondary, #666);
+}
+
+.badge-container {
+  margin-bottom: 3rem;
+}
+
+.digital-badge {
+  background: linear-gradient(135deg, #ffd700, #ff8c00);
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  margin: 0 auto 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  box-shadow: 0 10px 30px rgba(255, 140, 0, 0.3);
+  border: 5px solid white;
+}
+
+.digital-badge.glow {
+  animation: pulseGlow 2s infinite alternate;
+}
+
+@keyframes pulseGlow {
+  0% { box-shadow: 0 0 20px rgba(255, 140, 0, 0.4); }
+  100% { box-shadow: 0 0 40px rgba(255, 215, 0, 0.8); }
+}
+
+.badge-icon {
+  font-size: 4rem;
+  margin-bottom: 0.5rem;
+}
+
+.digital-badge h4 {
+  margin: 0;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.digital-badge p {
+  margin: 0;
+  font-size: 0.8rem;
+  opacity: 0.9;
+}
+
+.win-message {
+  font-size: 1.2rem;
+  color: #2e7d32;
+  font-weight: 500;
+}
+
+.keep-learning {
+  margin-bottom: 3rem;
+}
+
+.keep-learning-icon {
+  font-size: 4rem;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.keep-learning p {
+  font-size: 1.1rem;
+  color: var(--text-secondary, #666);
+  max-width: 400px;
+  margin: 0 auto;
+}

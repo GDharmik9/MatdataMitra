@@ -174,6 +174,47 @@ If the situation is nonsensical, return a standard basic checklist for a new vot
   }
 }
 
+/**
+ * Generate a dynamic Civic Education Quiz
+ */
+export async function generateCivicQuiz(): Promise<any> {
+  try {
+    const prompt = `You are the ECI AI Assistant. Generate a 5-question multiple-choice quiz about the Election Commission of India, EVMs, Voter Rights, and the Indian democratic process. 
+Ensure the questions are engaging, accurate, and suitable for the general public. Make them unique each time.
+
+Output STRICTLY a valid JSON array of objects. Do not include markdown formatting, backticks, or any conversational text.
+Each object in the array must represent a question and have exactly these keys:
+- "question": The question text.
+- "options": An array of exactly 4 strings representing the possible answers.
+- "correctIndex": An integer (0-3) representing the index of the correct option.
+- "explanation": A short, 1-2 sentence explanation of WHY the answer is correct.`;
+
+    const response = await genai.models.generateContent({
+      model: env.GEMINI_MODEL,
+      contents: [{ role: "user", parts: [{ text: prompt }] }],
+      config: {
+        temperature: 0.7, // Higher temp to ensure uniqueness each time
+        responseMimeType: "application/json"
+      }
+    });
+
+    const text = response.text;
+    if (!text) {
+      throw new Error("No response from Gemini");
+    }
+
+    try {
+      return JSON.parse(text.trim());
+    } catch (parseError) {
+      console.error("Failed to parse Gemini JSON response for quiz:", text);
+      throw parseError;
+    }
+  } catch (error) {
+    console.error("Gemini Quiz Error:", error);
+    throw error;
+  }
+}
+
 
 /**
  * Determine user intent from their query

@@ -169,6 +169,13 @@ export default function HomeContent() {
                 <p>Tell us your situation and Gemini AI will generate a personalized step-by-step checklist.</p>
               </div>
             </Link>
+            <Link href="/quiz" style={{ textDecoration: 'none', color: 'inherit' }}>
+              <div className="feature-card" style={{ height: '100%', cursor: 'pointer', transition: 'transform 0.2s', border: '1px solid var(--primary-color)' }}>
+                <span className="feature-icon">🏆</span>
+                <h3>Democracy Quiz</h3>
+                <p>Test your knowledge with unique AI-generated questions and earn the Defender badge!</p>
+              </div>
+            </Link>
             <div className="feature-card">
               <span className="feature-icon">🤖</span>
               <h3>AI-Powered Guidance</h3>
