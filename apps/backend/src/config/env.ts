@@ -60,7 +60,7 @@ export const env: EnvConfig = {
   GCS_BUCKET_NAME: getEnv("GCS_BUCKET_NAME", "matdata-mitra-documents"),
 
   GEMINI_API_KEY: getEnv("GEMINI_API_KEY"),
-  GEMINI_MODEL: getEnv("GEMINI_MODEL", "gemini-1.5-flash"),
+  GEMINI_MODEL: getEnv("GEMINI_MODEL", "gemini-3-flash-preview"),
 
   CIVIC_API_KEY: getEnv("CIVIC_API_KEY"),
 
