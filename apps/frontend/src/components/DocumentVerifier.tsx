@@ -113,6 +113,7 @@ export default function DocumentVerifier() {
               ref={fileInputRef} 
               onChange={handleFileChange} 
               style={{ display: "none" }} 
+              aria-label="Upload document image for verification"
               data-testid="file-upload"
             />
           </div>

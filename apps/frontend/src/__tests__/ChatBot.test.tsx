@@ -51,7 +51,7 @@ describe('ChatBot Component', () => {
 
   it('renders correctly with default text mode', () => {
     render(<ChatBot isActive={true} initialMode="text" />);
-    expect(screen.getByPlaceholderText(/Type your message.../i)).toBeInTheDocument();
+    expect(screen.getByPlaceholderText(/Type your question.../i)).toBeInTheDocument();
   });
 
   it('handles sending text message successfully', async () => {
@@ -65,7 +65,7 @@ describe('ChatBot Component', () => {
 
     render(<ChatBot isActive={true} initialMode="text" />);
     
-    const input = screen.getByPlaceholderText(/Type your message.../i);
+    const input = screen.getByPlaceholderText(/Type your question.../i);
     const sendButton = screen.getByRole('button', { name: /send/i });
 
     fireEvent.change(input, { target: { value: 'Hi' } });
@@ -89,7 +89,7 @@ describe('ChatBot Component', () => {
 
     render(<ChatBot isActive={true} initialMode="text" />);
     
-    const input = screen.getByPlaceholderText(/Type your message.../i);
+    const input = screen.getByPlaceholderText(/Type your question.../i);
     const sendButton = screen.getByRole('button', { name: /send/i });
 
     fireEvent.change(input, { target: { value: 'Hi' } });

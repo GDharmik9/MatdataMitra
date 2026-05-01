@@ -15,10 +15,11 @@ interface VoterService {
 
 interface EciAnnouncement {
   id: string;
-  title: string;
-  date?: string;
-  link?: string;
-  source?: string;
+  title_en: string;
+  source_url?: string;
+  category?: string;
+  metadata?: string;
+  scrapedAt?: string;
 }
 
 export default function HomeContent() {
@@ -63,7 +64,9 @@ export default function HomeContent() {
         const db = getFirebaseDB();
         if (!db) return;
         const q = query(collection(db, "eci_announcements"), limit(6));
+
         const snap = await getDocs(q);
+
         const data: EciAnnouncement[] = [];
         snap.forEach((doc) => {
           data.push({ id: doc.id, ...doc.data() } as EciAnnouncement);
@@ -226,11 +229,12 @@ export default function HomeContent() {
                   <div key={item.id} style={{ background: 'var(--bg-card)', border: '1px solid var(--border-glass)', borderRadius: '12px', padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                     <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'flex-start' }}>
                       <span style={{ fontSize: '1.2rem', flexShrink: 0 }}>📢</span>
-                      <p style={{ margin: 0, color: 'var(--text-primary)', fontWeight: '500', lineHeight: '1.4', fontSize: '0.95rem' }}>{item.title}</p>
+                      <p style={{ margin: 0, color: 'var(--text-primary)', fontWeight: '500', lineHeight: '1.4', fontSize: '0.95rem' }}>{item.title_en}</p>
                     </div>
-                    {item.source && <span style={{ fontSize: '0.75rem', color: 'var(--accent)', fontWeight: 600 }}>{item.source}</span>}
-                    {item.link && item.link !== '#' && (
-                      <a href={item.link} target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.85rem', color: 'var(--accent)', marginTop: '0.25rem' }}>Read more ↗</a>
+                    {item.category && <span style={{ fontSize: '0.75rem', color: 'var(--accent)', fontWeight: 600 }}>{item.category}</span>}
+                    {item.metadata && <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{item.metadata}</span>}
+                    {item.source_url && item.source_url !== '#' && (
+                      <a href={item.source_url.startsWith('http') ? item.source_url : `https://www.eci.gov.in${item.source_url}`} target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.85rem', color: 'var(--accent)', marginTop: '0.25rem' }}>Read more ↗</a>
                     )}
                   </div>
                 ))}

@@ -119,6 +119,7 @@ export default function KnowYourCandidate() {
           accept="application/pdf"
           ref={fileInputRef}
           onChange={handleFileChange}
+          aria-label="Upload candidate affidavit PDF"
           style={{ display: 'none' }}
         />
       </div>
