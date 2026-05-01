@@ -26,8 +26,15 @@ describe('HomeContent Component', () => {
     jest.clearAllMocks();
   });
 
-  it('renders search input and feature grid initially', () => {
-    render(<HomeContent />);
+  it('renders search input and feature grid initially', async () => {
+    // Provide a mock DB and empty getDocs
+    (firebaseLib.getFirebaseDB as jest.Mock).mockReturnValue({});
+    const { getDocs } = require('firebase/firestore');
+    (getDocs as jest.Mock).mockResolvedValue({ forEach: () => {} });
+
+    await waitFor(() => {
+      render(<HomeContent />);
+    });
     
     expect(screen.getByPlaceholderText(/Search forms, guidelines/i)).toBeInTheDocument();
     expect(screen.getByText('Everything You Need')).toBeInTheDocument();
@@ -73,7 +80,14 @@ describe('HomeContent Component', () => {
   });
 
   it('populates search input when suggestion chip is clicked', async () => {
-    render(<HomeContent />);
+    // Provide a mock DB and empty getDocs
+    (firebaseLib.getFirebaseDB as jest.Mock).mockReturnValue({});
+    const { getDocs } = require('firebase/firestore');
+    (getDocs as jest.Mock).mockResolvedValue({ forEach: () => {} });
+
+    await waitFor(() => {
+      render(<HomeContent />);
+    });
     
     const chip = screen.getByText('Form 6');
     fireEvent.click(chip);

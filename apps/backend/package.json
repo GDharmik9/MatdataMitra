@@ -30,6 +30,7 @@
     "zod": "^4.4.1"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/express-rate-limit": "^6.0.2",
@@ -39,10 +40,12 @@
     "@types/supertest": "^7.2.0",
     "@types/uuid": "^10.0.0",
     "@types/ws": "^8.5.14",
+    "eslint": "^10.2.1",
     "jest": "^30.3.0",
     "supertest": "^7.2.2",
     "ts-jest": "^29.4.9",
     "tsx": "^4.19.0",
-    "typescript": "^5.7.0"
+    "typescript": "^5.7.0",
+    "typescript-eslint": "^8.59.1"
   }
 }

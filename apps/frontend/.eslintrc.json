@@ -1,0 +1,12 @@
+{
+  "extends": ["next/core-web-vitals", "next/typescript"],
+  "rules": {
+    "@typescript-eslint/ban-ts-comment": "off",
+    "@typescript-eslint/no-require-imports": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "react/display-name": "off",
+    "react/jsx-no-duplicate-props": "off",
+    "@next/next/no-html-link-for-pages": "off",
+    "@next/next/no-img-element": "off"
+  }
+}

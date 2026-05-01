@@ -52,10 +52,7 @@ export default function ChatBot({ isActive = true, initialMode = "text" }: { isA
 
   // Handle auto-starting voice when opened manually
   useEffect(() => {
-    if (isActive && initialMode === "voice" && !isRecording && messages.length === 0) {
-      // Small delay to ensure modal is open
-      setTimeout(() => startRecording(), 300);
-    }
+    // Intentionally left blank to prevent auto-starting microphone which burns API quota via background noise.
   }, [isActive, initialMode, messages.length]);
 
   useEffect(() => {

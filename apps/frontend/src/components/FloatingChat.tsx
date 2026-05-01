@@ -18,7 +18,7 @@ export default function FloatingChat() {
 
   const handleManualOpen = () => {
     if (!isOpen) {
-      setInitialMode("voice"); // Voice mode when clicked manually
+      setInitialMode("text"); // Prevent accidental API calls by defaulting to text mode
     }
     setIsOpen(!isOpen);
   };
