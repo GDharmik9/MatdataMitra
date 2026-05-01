@@ -162,6 +162,13 @@ export default function HomeContent() {
                 <p>Upload your Aadhaar or ID proof. Gemini Vision verifies if it's clear and valid before applying.</p>
               </div>
             </Link>
+            <Link href="/journey" style={{ textDecoration: 'none', color: 'inherit' }}>
+              <div className="feature-card" style={{ height: '100%', cursor: 'pointer', transition: 'transform 0.2s', border: '1px solid var(--primary-color)' }}>
+                <span className="feature-icon">🗺️</span>
+                <h3>Voter Journey</h3>
+                <p>Tell us your situation and Gemini AI will generate a personalized step-by-step checklist.</p>
+              </div>
+            </Link>
             <div className="feature-card">
               <span className="feature-icon">🤖</span>
               <h3>AI-Powered Guidance</h3>

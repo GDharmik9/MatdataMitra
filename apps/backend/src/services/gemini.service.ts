@@ -133,6 +133,49 @@ Do not include any markdown formatting or backticks around the JSON. Just return
 }
 
 /**
+ * Generate a personalized Voter Journey checklist
+ */
+export async function generateJourneyChecklist(situation: string): Promise<any> {
+  try {
+    const prompt = `You are the ECI AI Assistant. Based on the user's situation, generate a step-by-step personalized checklist for their voter journey.
+User's situation: "${situation}"
+
+Output strictly a valid JSON array of objects, where each object represents a step in the process. Do not include markdown formatting or backticks.
+Each object must have exactly these keys:
+- "title": A short, clear title for the step (e.g. "Fill Form 6", "Verify Name in Electoral Roll")
+- "description": A 1-2 sentence description explaining what to do and why.
+- "link": A relevant official ECI link (e.g., "https://voters.eci.gov.in/") or null if not applicable.
+
+If the situation is nonsensical, return a standard basic checklist for a new voter.`;
+
+    const response = await genai.models.generateContent({
+      model: env.GEMINI_MODEL,
+      contents: [{ role: "user", parts: [{ text: prompt }] }],
+      config: {
+        temperature: 0.2, // Low temp for more deterministic JSON
+        responseMimeType: "application/json"
+      }
+    });
+
+    const text = response.text;
+    if (!text) {
+      throw new Error("No response from Gemini");
+    }
+
+    try {
+      return JSON.parse(text.trim());
+    } catch (parseError) {
+      console.error("Failed to parse Gemini JSON response for journey:", text);
+      throw parseError;
+    }
+  } catch (error) {
+    console.error("Gemini Journey Error:", error);
+    throw error;
+  }
+}
+
+
+/**
  * Determine user intent from their query
  * Returns the classified intent for routing to the appropriate service
  */
