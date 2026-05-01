@@ -266,3 +266,59 @@
   border-radius: var(--radius-sm);
   margin-bottom: 1rem;
 }
+
+@media (max-width: 600px) {
+  .quiz-card {
+    padding: 1.5rem 1rem;
+  }
+
+  .quiz-icon {
+    font-size: 3rem;
+  }
+
+  .start-screen p {
+    font-size: 1rem;
+  }
+
+  .quiz-rules {
+    padding: 1rem;
+    font-size: 0.9rem;
+  }
+
+  .start-btn {
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 1.1rem;
+  }
+
+  .question-text {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .option-btn {
+    padding: 1rem;
+    font-size: 0.95rem;
+  }
+
+  .score-number {
+    font-size: 3.5rem;
+  }
+
+  .score-total {
+    font-size: 1.5rem;
+  }
+
+  .digital-badge {
+    width: 160px;
+    height: 160px;
+  }
+
+  .badge-icon {
+    font-size: 3rem;
+  }
+
+  .digital-badge h4 {
+    font-size: 1rem;
+  }
+}

@@ -59,7 +59,7 @@ export default function CategoryList({ categoryFilter, title, description }: { c
   }, [categoryFilter]);
 
   return (
-    <div className="container" style={{ padding: "4rem 2rem", maxWidth: "800px", margin: "0 auto" }}>
+    <div className="page-container">
       <h1 style={{ color: "var(--text-primary)", marginBottom: "0.5rem" }}>{title}</h1>
       <p style={{ color: "var(--text-secondary)", marginBottom: "3rem", fontSize: "1.1rem" }}>{description}</p>
 

@@ -232,3 +232,47 @@
   color: var(--error);
   border-top: 1px solid var(--error);
 }
+
+@media (max-width: 600px) {
+  .document-verifier-container {
+    padding: 1rem;
+    border-radius: 0;
+  }
+
+  .verifier-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .verifier-header p {
+    font-size: 1rem;
+  }
+
+  .drop-zone {
+    padding: 1.5rem;
+    min-height: 200px;
+  }
+
+  .drop-zone-placeholder .upload-icon {
+    font-size: 2.5rem;
+  }
+
+  .result-section {
+    padding: 1rem;
+  }
+
+  .result-details {
+    padding: 1rem;
+  }
+
+  .result-header h3 {
+    font-size: 1.1rem;
+  }
+
+  .detail-item strong {
+    font-size: 0.8rem;
+  }
+
+  .detail-item span, .detail-item p {
+    font-size: 0.9rem;
+  }
+}

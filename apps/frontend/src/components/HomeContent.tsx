@@ -224,7 +224,7 @@ export default function HomeContent() {
             <section className="features" id="eci-updates">
               <h2 className="section-title">📡 Live ECI Updates</h2>
               <p style={{ textAlign: 'center', color: 'var(--text-secondary)', marginBottom: '2rem', marginTop: '-1.5rem' }}>Real-time announcements scraped directly from the official ECI portal.</p>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1rem' }}>
                 {announcements.map((item) => (
                   <div key={item.id} style={{ background: 'var(--bg-card)', border: '1px solid var(--border-glass)', borderRadius: '12px', padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                     <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'flex-start' }}>
