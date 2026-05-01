@@ -10,9 +10,13 @@ graph TD
     Frontend <--> |REST API| Backend[Express.js Backend]
     
     Backend <--> |Gemini API| Gemini[Google Gemini 2.0 Flash]
+    Backend <--> |Vision API| GeminiVision[Google Gemini Vision]
     Backend <--> |RAG Match| KnowledgeBase[(ECI Document Store)]
+    Backend <--> |Scraped Live Data| Firestore[(Firebase Firestore)]
     
     Backend -.-> |Mock API Data| ExternalAPI[Civic Info / Candidates]
+    
+    Scraper[Python ECI Scraper] --> |Writes| Firestore
 ```
 
 ## 2. Component Architecture
@@ -24,13 +28,14 @@ graph TD
 
 ### Application Layer (Express.js)
 - **`chat.routes.ts`:** Handles the translation and routing of queries to the AI engine.
-- **`gemini.service.ts`:** Manages the system prompt, constraints, and SDK interactions with Google Gen AI.
+- **`gemini.service.ts`:** Manages the system prompt, JSON mode generation (Quiz, Journey), and Vision SDK interactions (Document Verifier, OCR) with Google Gen AI.
 - **`rag.service.ts`:** Executes semantic or exact-match search against curated documents.
-- **`candidate.service.ts`:** Serves mock external data for the KYC module.
+- **`candidate.service.ts`:** Serves mock external data for the KYC module and parses PDF uploads.
 
 ### Data Layer
 - **Knowledge Base (`sampleDocs`):** JSON array of predefined text blocks simulating a vector database.
 - **Mock Stores:** Candidate and Voter datasets simulating external databases.
+- **Firestore DB:** Live database storing real-time scraped announcements from the ECI portal and acting as a local RAG cache.
 
 ## 3. Data Flow: End-to-End Chat Request
 

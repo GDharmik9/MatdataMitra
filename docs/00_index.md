@@ -15,7 +15,8 @@
 | 3 | [Firestore AI Cost-Saving Wall](./docs/03_firestore_backend_wall.md) | Backend | ✅ Complete |
 | 4 | [Frontend Portal — Search & Pages](./docs/04_frontend_portal.md) | Frontend | ✅ Complete |
 | 5 | [Navigation & UI Overhaul](./docs/05_navigation_ui.md) | UI/UX | ✅ Complete |
-| 6 | [Multilingual Translation System](./docs/06_multilingual.md) | Accessibility | 🔄 In Progress |
+| 6 | [Multilingual Translation System](./docs/06_multilingual.md) | Accessibility | ✅ Complete |
+| 7 | [Gemini Vision & JSON Mode](./docs/Feature_Expansion_Roadmap.md) | AI Upgrades | ✅ Complete |
 
 ---
 
@@ -34,14 +35,16 @@ User (Web Browser)
         │  Chat / Voice Query
         ▼
   Node.js Backend (Port 8080)
+  ├─ /api/document/verify → Gemini Vision (OCR)
+  ├─ /api/journey & /api/quiz → Gemini JSON Mode
   ├─ findLocalAnswer() → Firestore (cost-saving wall)
   │       │ Miss
   │       ▼
-  └─ Gemini 1.5 Flash API (RAG pipeline)
+  └─ Gemini 2.0 Flash API (RAG pipeline)
         │
         ▼
-  Firestore (voter_services collection)
-  └─ Populated by: ECI Scraper + Seed Scripts
+  Firestore (voter_services & eci_announcements)
+  └─ Populated by: Multi-Domain Python ECI Scraper
 ```
 
 ---
@@ -63,8 +66,8 @@ User (Web Browser)
 
 | Service | Local | Cloud Run |
 |---------|-------|-----------|
-| Frontend | http://localhost:3000 | Configured via NEXT_PUBLIC_BACKEND_URL |
-| Backend | http://localhost:8080 | Configured via BACKEND_URL |
+| Frontend | http://localhost:3000 | https://frontend-1052506309358.asia-south1.run.app |
+| Backend | http://localhost:8080 | https://backend-1052506309358.asia-south1.run.app |
 | Firestore | Firebase Console | matdatamitra project |
 
 ---

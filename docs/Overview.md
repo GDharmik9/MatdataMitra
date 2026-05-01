@@ -17,4 +17,8 @@ By leveraging Google Cloud and Gemini 2.0 Flash, MatdataMitra transforms complex
 - **Lexical Paraphrasing:** Automatically translate and simplify ECI guidelines (like the "Special Summary Revision") into 5th-grade level explanations.
 - **Fact-Based Confidence:** Use a strict Retrieval-Augmented Generation (RAG) pipeline to ensure the AI *only* answers questions based on verified electoral data, drastically reducing hallucination risks.
 - **Multimodal Accessibility:** Integrate browser Web Speech APIs to allow illiterate or visually impaired voters to simply "talk" to the application in their local dialect.
-- **Full Transparency:** Provide direct insights into candidate backgrounds (KYC) and precise polling booth locators to empower informed voting decisions.
+- **AI Document Pre-Verification:** Utilize Gemini Vision to instantly analyze uploaded application forms or IDs, ensuring they meet strict ECI formatting and legibility standards to prevent rejections.
+- **Dynamic Civic Education:** Gamify voter awareness through an interactive Democracy Defender Quiz dynamically generated via Gemini JSON mode.
+- **Personalized Voter Journey:** Guide users through a step-by-step roadmap from registration to polling day, customized using Gemini JSON generation based on user demographics.
+- **Full Transparency & OCR:** Provide direct insights into candidate backgrounds (KYC) with the ability to upload candidate affidavit PDFs for Gemini Vision OCR extraction, alongside precise polling booth locators to empower informed voting decisions.
+- **Live Data Pipeline:** A Python scraper fetching live ECI announcements from multiple domains (`voters.eci.gov.in` and `www.eci.gov.in`), streaming directly to the frontend dashboard.

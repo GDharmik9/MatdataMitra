@@ -60,6 +60,22 @@ export interface RagDocument {
 - **Request Parameters:** `query` (string)
 - **Response Body:** Array of `Candidate` objects containing ID, Name, Party, Education, Assets, Liabilities, and Criminal records boolean.
 
+### `POST /api/candidates/analyze-affidavit`
+- **Request Body:** `{ base64Pdf: "...", mimeType: "application/pdf" }`
+- **Response Body:** `ApiResponse<AffidavitSummary>`
+
+### `POST /api/document/verify`
+- **Request Body:** `{ base64Image: "...", mimeType: "image/jpeg" }`
+- **Response Body:** `ApiResponse<DocumentVerificationResult>`
+
+### `POST /api/journey/generate`
+- **Request Body:** `{ ageGroup: "18-21", location: "Urban", isPwD: false }`
+- **Response Body:** `ApiResponse<JourneyChecklist>`
+
+### `POST /api/quiz/generate`
+- **Request Body:** Empty (or optional difficulty)
+- **Response Body:** `ApiResponse<QuizQuestion[]>`
+
 ## 3. RAG Retrieval Logic (`rag.service.ts`)
 The `buildAugmentedPrompt` function performs the following logic:
 1. Normalizes the user query to lowercase.

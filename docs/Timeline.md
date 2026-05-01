@@ -4,6 +4,50 @@
 
 ---
 
+## 🚀 [May 1, 2026] Deployment & Cloud Run Success
+**Decision:** Deploy both frontend and backend to Google Cloud Run (asia-south1).
+**Why:** Provide a scalable, production-ready live URL for the hackathon submission.
+**Changed:**
+- Resolved GCP billing restrictions.
+- Executed `docker build` and pushed images directly to Artifact Registry.
+- Successfully launched on Cloud Run.
+
+---
+
+## 🧪 [May 1, 2026] 100% Test Coverage & Accessibility Polish
+**Decision:** Ensure absolute stability and WCAG compliance before submission.
+**Changed:**
+- Fixed Jest parallel execution issues with `--runInBand` in backend.
+- Added ARIA labels to hidden file inputs in `DocumentVerifier` and `KnowYourCandidate`.
+- Fixed port conflicts in `health.test.ts`.
+- Result: 16/16 backend tests pass, 19/19 frontend tests pass.
+
+---
+
+## 📄 [May 1, 2026] Document Pre-Verifier & KYC Affidavit OCR (Gemini Vision)
+**Decision:** Implement Gemini Vision to prevent form rejections and extract transparency data.
+**Changed:**
+- `DocumentVerifier.tsx` + `/api/document/verify` — users upload form images, Gemini Vision checks legibility.
+- `KnowYourCandidate.tsx` + `/api/candidates/analyze-affidavit` — OCR extraction of complex PDF affidavits.
+
+---
+
+## 🎮 [May 1, 2026] Interactive Voter Journey & Democracy Quiz (Gemini JSON)
+**Decision:** Use Gemini's structured JSON generation to create personalized and gamified experiences.
+**Changed:**
+- `VoterJourney.tsx` + `/api/journey/generate` — personalized registration roadmaps.
+- `DemocracyQuiz.tsx` + `/api/quiz/generate` — dynamic civic education.
+
+---
+
+## 📡 [May 1, 2026] Live ECI Data Integration on Dashboard
+**Decision:** Connect the frontend "Live Updates" to the actual multi-domain python scraper.
+**Why:** Data was in Firestore but not surfaced. Now users see real-time announcements from ECI domains.
+**Changed:**
+- `HomeContent.tsx` — added a `useEffect` to fetch and render `eci_announcements`.
+
+---
+
 ## 🌐 [Apr 30, 2026 — 7:40 PM] Translation Fix: Cookie-Based Approach
 **Decision:** Switched from DOM event-dispatching to `googtrans` cookie-based translation.  
 **Why:** Google Translate doesn't watch DOM events reliably. The real mechanism is a browser cookie (`googtrans=/en/hi`) read on page load. Using `display:none` on the hidden widget also prevented Google's script from initialising.  

@@ -28,14 +28,26 @@ MatdataMitra acts as an intelligent reasoning layer between complex government d
 5. **Polling Booth Locator & Voter Verification**
    - Enter an EPIC number to instantly find voter registration status and the exact geographical polling booth location.
 
-6. **Interactive Voter Timeline**
-   - A step-by-step interactive roadmap that guides users from registration to polling day.
+6. **Interactive Voter Journey**
+   - A step-by-step interactive roadmap that guides users from registration to polling day, customized dynamically via Gemini JSON generation based on user demographics.
 
-7. **Universal Accessibility (PwD Support & WCAG)**
-   - High Contrast modes, Font Scaling, ARIA labels, Keyboard navigation, and dynamic language tagging built-in for Persons with Disabilities (PwD) voters.
+7. **AI Document Pre-Verifier (Gemini Vision)**
+   - Upload images of application forms or IDs. Gemini Vision analyzes the document instantly to ensure it meets strict ECI formatting and legibility standards before actual submission, preventing rejections.
 
-8. **Firestore "Cost-Saving Wall" (Efficiency)**
-   - Before hitting the Gemini RAG API, incoming queries are intercepted and matched against local Firestore keywords. Common queries (like "Form 6") instantly return verified forms at 0ms latency and $0 cost.
+8. **Democracy Defender Quiz**
+   - An interactive, dynamically generated civic education quiz (using Gemini JSON mode) to gamify voter awareness and test knowledge on the electoral process.
+
+9. **Know Your Candidate (KYC) & Affidavit OCR**
+   - Search for candidates to view their details. Users can upload candidate affidavit PDFs, which are analyzed by Gemini Vision OCR to extract complex asset, education, and criminal antecedent data into readable summaries.
+
+10. **Multi-Domain ECI Data Scraper**
+    - A Python-based scraper fetching live announcements and forms from both `voters.eci.gov.in` and `www.eci.gov.in`. The scraped data is stored in Firestore and streamed live to the "Live ECI Updates" section on the frontend dashboard.
+
+11. **Universal Accessibility (PwD Support & WCAG)**
+    - High Contrast modes, Font Scaling, ARIA labels, Keyboard navigation, and dynamic language tagging built-in for Persons with Disabilities (PwD) voters. All modules follow global design system variables.
+
+12. **Firestore "Cost-Saving Wall" (Efficiency)**
+    - Before hitting the Gemini RAG API, incoming queries are intercepted and matched against local Firestore keywords. Common queries (like "Form 6") instantly return verified forms at 0ms latency and $0 cost.
 
 ---
 
