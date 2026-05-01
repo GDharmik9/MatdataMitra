@@ -76,6 +76,63 @@ export async function generateResponse(
 }
 
 /**
+ * Verify a document image using Gemini Vision
+ */
+export async function verifyDocumentImage(base64Image: string, mimeType: string): Promise<any> {
+  try {
+    const prompt = `You are an AI Document Pre-Verifier for the Election Commission of India. 
+Your job is to check if the uploaded document (like Aadhaar, Voter ID, Passport, Electricity Bill, Age Proof, etc.) is clearly legible, not overly blurry, not cut off, and appears to be a valid proof of identity or address.
+
+Analyze the image carefully and respond strictly with a valid JSON object matching this structure:
+{
+  "isValid": boolean, // true if it looks clear and valid, false if blurry, cut off, or illegible
+  "documentType": string, // The type of document identified (e.g. "Aadhaar Card", "PAN Card", "Electricity Bill", "Unknown")
+  "confidence": number, // 0-100 score of your confidence
+  "feedback": string // Clear, concise, and constructive advice on why it is accepted or why it might be rejected by the portal. Keep it under 2 sentences.
+}
+
+Do not include any markdown formatting or backticks around the JSON. Just return the raw JSON string.`;
+
+    const response = await genai.models.generateContent({
+      model: env.GEMINI_MODEL,
+      contents: [
+        {
+          role: "user",
+          parts: [
+            { text: prompt },
+            {
+              inlineData: {
+                data: base64Image,
+                mimeType: mimeType
+              }
+            }
+          ]
+        }
+      ],
+      config: {
+        temperature: 0.1, // Low temperature for deterministic analysis
+        responseMimeType: "application/json"
+      }
+    });
+
+    const text = response.text;
+    if (!text) {
+      throw new Error("No response from Gemini Vision");
+    }
+
+    try {
+      return JSON.parse(text.trim());
+    } catch (parseError) {
+      console.error("Failed to parse Gemini Vision JSON response:", text);
+      throw parseError;
+    }
+  } catch (error) {
+    console.error("Gemini Vision Error:", error);
+    throw error;
+  }
+}
+
+/**
  * Determine user intent from their query
  * Returns the classified intent for routing to the appropriate service
  */

@@ -155,6 +155,13 @@ export default function HomeContent() {
         <section className="features" id="features">
           <h2 className="section-title">Everything You Need</h2>
           <div className="features-grid">
+            <Link href="/verify-document" style={{ textDecoration: 'none', color: 'inherit' }}>
+              <div className="feature-card" style={{ height: '100%', cursor: 'pointer', transition: 'transform 0.2s', border: '1px solid var(--primary-color)' }}>
+                <span className="feature-icon">🔍</span>
+                <h3>AI Document Verifier</h3>
+                <p>Upload your Aadhaar or ID proof. Gemini Vision verifies if it's clear and valid before applying.</p>
+              </div>
+            </Link>
             <div className="feature-card">
               <span className="feature-icon">🤖</span>
               <h3>AI-Powered Guidance</h3>

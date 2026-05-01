@@ -18,6 +18,7 @@ import voterRoutes from "./routes/voter.routes";
 import civicRoutes from "./routes/civic.routes";
 import candidateRoutes from "./routes/candidate.routes";
 import whatsappRoutes from "./routes/whatsapp.routes";
+import documentRoutes from "./routes/document.routes";
 
 export const app = express();
 const server = http.createServer(app);
@@ -57,6 +58,7 @@ app.use("/api/voter", voterRoutes);
 app.use("/api/civic", apiLimiter, civicRoutes);
 app.use("/api/candidates", apiLimiter, candidateRoutes);
 app.use("/api/whatsapp", whatsappRoutes);
+app.use("/api/document", documentRoutes);
 
 
 // ── 404 Handler ──
